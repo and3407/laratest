@@ -1,0 +1,46 @@
+services:
+  nginx:
+    container_name: ${APP_NAME}_nginx
+    tty: true
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    depends_on:
+      - php
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - laratest_network
+
+  php:
+    container_name: ${APP_NAME}_php
+    tty: true
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - .:/var/www/html
+    networks:
+      - laratest_network
+
+  postgresql:
+    image: postgres
+    container_name: ${APP_NAME}_postgresql
+    environment:
+        POSTGRES_USER: admin
+        POSTGRES_PASSWORD: admin
+        POSTGRES_DB: laratest
+    ports:
+        - "5432:5432"
+    volumes:
+        - laratest_postgresql:/var/lib/mysql
+    networks:
+        - laratest_network
+
+volumes:
+    laratest_postgresql:
+
+networks:
+    laratest_network:
+        driver: bridge
