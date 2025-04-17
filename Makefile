@@ -33,3 +33,6 @@ remove-network:
 	else \
 		echo "Network $(APP_NAME)_network does not exist"; \
 	fi
+
+migrate:
+	docker-compose exec php php artisan migrate
