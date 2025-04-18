@@ -36,3 +36,6 @@ remove-network:
 
 migrate:
 	docker-compose exec php php artisan migrate
+
+composer_install:
+	docker-compose exec php composer install

@@ -38,9 +38,21 @@ services:
     networks:
         - ${APP_NAME}_network
 
+  redis:
+      image: redis:6.2.6-alpine
+      container_name: ${APP_NAME}_redis
+#      restart: unless-stopped
+      networks:
+          - ${APP_NAME}_network
+      volumes:
+          - laratest_redis:/data
+      ports:
+          - "6379:6379"
+
 volumes:
     laratest_postgresql:
-        name: ${APP_NAME}_postgresql
+    laratest_redis:
+
 
 networks:
     laratest_network:
