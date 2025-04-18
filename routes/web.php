@@ -8,3 +8,4 @@ Route::get('/', function () {
 });
 
 Route::get('/common', [CommonController::class, 'index']);
+Route::get('/common/ab', [CommonController::class, 'ab']);
