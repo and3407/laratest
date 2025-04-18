@@ -49,9 +49,53 @@ services:
       ports:
           - "6379:6379"
 
+  opensearch:
+      image: opensearchproject/opensearch:latest
+      container_name: ${APP_NAME}_opensearch
+      environment:
+          - cluster.name=opensearch-cluster
+          - node.name=opensearch
+          - node.roles=cluster_manager,data,ingest,ml
+          - discovery.seed_hosts=opensearch
+          - cluster.initial_cluster_manager_nodes=opensearch
+          - bootstrap.memory_lock=true
+          - "OPENSEARCH_JAVA_OPTS=-Xms3g -Xmx3g"
+          - "DISABLE_INSTALL_DEMO_CONFIG=true" # Prevents execution of bundled demo script which installs demo certificates and security configurations to OpenSearch
+          - "DISABLE_SECURITY_PLUGIN=true" # Disables security plugin
+      ulimits:
+          memlock:
+              soft: -1
+              hard: -1
+          nofile:
+              soft: 65536
+              hard: 65536
+      volumes:
+          - laratest_opensearch:/usr/share/opensearch/data
+      ports:
+          - "9200:9200"
+          - "9600:9600"
+      networks:
+          - ${APP_NAME}_network
+
+  opensearch-dashboard:
+      image: opensearchproject/opensearch-dashboards:latest
+      container_name: ${APP_NAME}_opensearch_dashboard
+      ports:
+          - 5601:5601
+      expose:
+          - "5601"
+      environment:
+          - 'OPENSEARCH_HOSTS=["http://opensearch:9200"]'
+          - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true" # disables security dashboards plugin in OpenSearch Dashboards
+      depends_on:
+          - opensearch
+      networks:
+          - ${APP_NAME}_network
+
 volumes:
     laratest_postgresql:
     laratest_redis:
+    laratest_opensearch:
 
 
 networks:
