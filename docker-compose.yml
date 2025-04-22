@@ -17,12 +17,14 @@ services:
     container_name: ${APP_NAME}_php
     tty: true
     build:
-      context: .
-      dockerfile: ./docker/php/Dockerfile
+      context: ./docker/php
+      dockerfile: Dockerfile
     volumes:
       - .:/var/www/html
     networks:
       - ${APP_NAME}_network
+    extra_hosts:
+        - "host.docker.internal:host-gateway"
 
   postgresql:
     image: postgres

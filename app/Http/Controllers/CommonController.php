@@ -9,9 +9,13 @@ class CommonController extends Controller
 {
     public function index(): string
     {
+        $xd = ' Hello xdebug';
+        $xd3 = ' Hello xdebug';
+
+//        dd('foo');
 //        Redis::set('common', 'common value');
 //
-        dump(Redis::get('common'));
+//        dump(Redis::get('common'));
 //
 //        $client = (new ClientBuilder())
 //            ->setHosts(['laratest_opensearch:9200'])
