@@ -39,3 +39,6 @@ migrate:
 
 composer_install:
 	docker-compose exec php composer install
+
+create_test_db:
+	docker-compose exec postgresql createdb -U admin laratest_test

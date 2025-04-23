@@ -29,6 +29,7 @@ services:
   postgresql:
     image: postgres
     container_name: ${APP_NAME}_postgresql
+    tty: true
     environment:
         POSTGRES_USER: admin
         POSTGRES_PASSWORD: admin
